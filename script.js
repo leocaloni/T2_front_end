@@ -1,5 +1,3 @@
-const axios = require("axios");
-
 function consultarCoordenadas() {
   const apiKey = "913ffda0c6dd987f26189fcf6600eb34";
   const cidadeInput = document.getElementById("cidade");
@@ -21,31 +19,34 @@ function consultarCoordenadas() {
           "resultado"
         ).innerText = `Coordenadas: ${coordenadas}`;
 
-        // Agora que você tem as coordenadas, faça a chamada para as condições atuais aqui
         const [latitude, longitude] = coordenadas.split(", ");
         const units = "metric";
         const lang = "pt_BR";
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=${units}&lang=${lang}&appid=${apiKey}`;
-        }
-        })
+
         axios
-        .get(url)
-        .then((res) => {
-        if (res) {
-            const dadosClima = res.data;
+          .get(url)
+          .then((res) => {
+            if (res) {
+              const dadosClima = res.data;
 
-            // Obtém a sensação térmica e descrição
-            const feelsLike = dadosClima.main.feels_like;
-            const descricao = dadosClima.weather[0].description;
+              const feelsLike = dadosClima.main.feels_like;
+              const descricao = dadosClima.weather[0].description;
 
-            // Exibe os valores no console
-            console.log("Sensação Térmica:", feelsLike);
-            console.log("Descrição:", descricao);
-        }
-        })
-        .catch((error) => {
-        console.error("Erro na consulta:", error);
-        document.getElementById("resultado").innerText =
-            "Erro na consulta. Verifique o console para mais detalhes.";
-        });
+              console.log("Sensação Térmica:", feelsLike);
+              console.log("Descrição:", descricao);
+            }
+          })
+          .catch((error) => {
+            console.error("Erro na consulta:", error);
+            document.getElementById("resultado").innerText =
+              "Erro na consulta. Verifique o console para mais detalhes.";
+          });
+      }
+    })
+    .catch((error) => {
+      console.error("Erro na consulta:", error);
+      document.getElementById("resultado").innerText =
+        "Erro na consulta. Verifique o console para mais detalhes.";
+    });
 }
